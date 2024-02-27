@@ -181,4 +181,3 @@ def extract_ham(limit = 1800):
         print(e)
 
 
-print(extract_mbox())
