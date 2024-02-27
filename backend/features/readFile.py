@@ -11,21 +11,21 @@ import pandas
 # Reading the files for both the spam and non-spam (ham messages)
 
 # Ammend these file paths for external use 
-mbox_file_path = 'backend/trainingData/mboxFiles'
+mbox_file_path = 'backend/trainingData/phishing3.mbox'
 ham_file_path = 'backend/trainingData/easy_ham'
 phish_file_path = 'backend/trainingData/IWSPA-AP-traindata/phish'
 alien_file_path = 'backend/trainingData/alientVaultData.csv'
 enron_file_path = 'backend/trainingData/enron_csv.csv'
 
 # Read file and create mbox
-def read_mbox_file(mbox_file_path):
+def read_mbox_file():
     try:
         # Open the mbox file - this is in bytes format
         mbox = mailbox.mbox(mbox_file_path)
         print("New mbox created successfully")
         return mbox  
     except Exception as e:
-        print("Error has occured : {e}")
+        print(e)
 
 # Files are in document type rather than mbox - https://stackoverflow.com/questions/10377998/how-can-i-iterate-over-files-in-a-given-directory
 def read_ham_file(ham_file_path):
@@ -61,4 +61,3 @@ def read_enron_file():
       enron_list.append(enron_email)
    return enron_list
 
-print(read_ham_file("backend/trainingData/easy_ham"))
