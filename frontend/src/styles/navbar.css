@@ -1,0 +1,28 @@
+.navbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: white;
+    height: 8vh;
+    box-shadow:  0 30px 40px rgba(0,0,0,.1);
+    align-items: center;
+    font-family: monospace;
+    padding: 0 4vh;
+
+}
+
+h1{
+    font-size: 3vh;
+}
+
+.links{
+    list-style-type: none;
+    display: flex;
+    gap: 4vh;
+ 
+}
+
+.links li{
+    cursor: pointer;
+}
+
