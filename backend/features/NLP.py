@@ -16,7 +16,7 @@ def load_pickle(filename):
           combined_mail = pickle.load(file)
      return combined_mail
 
-combined_mail = load_pickle("backend/features/random_data.pkl")     
+combined_mail = load_pickle("/Users/rossdunn3/Desktop/DissertationPhish/backend/features/random_data.pkl")     
 
 def get_language_features(mail_entry): #works
    nlpList = []

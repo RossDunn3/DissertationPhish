@@ -9,9 +9,10 @@ from featureEncoding import collateLinkData
 from NLP import get_language_features
 from inputValidation import extract_content
 from featureEngineering import extractDomainData
+import sys
 
-bert_path = 'backend/features/bertModel'
-gradientBoost_path = 'backend/features/gradient_boost_model_update.bin'
+bert_path = '/Users/rossdunn3/Desktop/DissertationPhish/backend/features/bertModel'
+gradientBoost_path = '/Users/rossdunn3/Desktop/DissertationPhish/backend/features/gradient_boost_model_update.bin'
 
 bert_loaded = tf.keras.models.load_model(bert_path)
 gradientBoost_loaded = xgboost.XGBClassifier()
@@ -26,7 +27,6 @@ def xgBoost_extractor(mail):
     link_data = linkDataExtraction(mail_data)
     if link_data != []:
         encoded_mail = collateLinkData(link_data)
-        print(encoded_mail)
         # useless in predictions
         encoded_mail.drop(columns=["Classifier"], inplace=True)
         return gradientBoost_loaded.predict_proba(encoded_mail)[:, 1] # this right now is prediction score
@@ -63,17 +63,27 @@ def bert_extractor(mail):
 # Combined predicton - not finalised as 0 links can contribute to legitimacy, instead of 0 score
 def combined_prediction(mail):
     xgBoost_decision = xgBoost_extractor(mail)
-    print(xgBoost_decision)
+
     bert_decision = bert_extractor(mail)
-    print(bert_decision)
-    final_decision = xgBoost_decision + bert_decision / 2
-    if final_decision > 0.6:
-        return "Phish!"
+
+    if xgBoost_decision >0: 
+        final_decision = xgBoost_decision + bert_decision / 2
     else:
-        return "Normal"
-    
-# uncomment for decision
-print(combined_prediction("backend/testData/example_email.txt"))
+        final_decision = bert_decision    
+  
+    if final_decision > 0.6:
+        print("||WARNING - This email is a phish!")
+    else:
+        print("||Normal email")
+
+# calling to test
+#print(combined_prediction("/Users/rossdunn3/Desktop/DissertationPhish/backend/uploads/"))
+
+#frontend  calls    
+if __name__ == "__main__":
+    combined_prediction('backend/uploads')
+
+
 
 
  

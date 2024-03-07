@@ -9,19 +9,19 @@ body{
     height: 60vh;
     margin: 0 auto;
     width: 80%;
-
-    margin-top: 10vh;
-  
-   
+    margin-top: 10vh;  
 }
 
+
+
 .landingText{
+    justify-content: flex-start;
 
     height: 50vh;
     display: flex;
     width: 60%;
     flex-direction: column;
-    align-items: center;
+
     justify-content: center;
  
 }
@@ -49,6 +49,30 @@ body{
     font-family: monospace;
 }
 
+
+.predict{
+    margin-top: 2vh;
+    align-content: flex-start;
+    border: 1px solid white;
+    border-radius: 20vh;
+    font-size: 2vh;
+    height: 5vh;
+    display: flex;
+    width: 25%;
+    align-items: center;
+    justify-content: center;
+    font-family: monospace;
+    background: linear-gradient(to right, #62cff4, #2c67f2); ;
+}
+
+.predict a{
+    text-decoration: none;
+    list-style-type: none;
+    color: white;
+}
+
+
+
 /*https://codepen.io/RyGanley/pen/vYyPvm */
 .landingImage{
     height: 45vh;
@@ -56,9 +80,79 @@ body{
     width: 30%;
     -webkit-transition: all 0.5s ease-in-out;
     -moz-transition: all 0.5s ease-in-out;
-    transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out; 
+}
+
+.text2 li {
+    cursor: pointer;
+    list-style-type: none;
 }
 
 .landingImage:hover{
     transform: scale(1.5);
+}
+
+.landingProcess{
+        display:flex;
+        justify-content: space-around;
+        align-items: center;
+        height: 60vh;
+        margin: 0 auto;
+        width: 70%;
+        margin-bottom: 5%;
+        gap: 5%;
+       
+}
+
+.Link{
+    cursor: pointer;
+    list-style-type: none;
+}
+
+.news1{
+    border: 1px solid black;
+    border-radius: 20px;
+    display:flex;
+    height: 45vh;
+    width: 25%;
+    background: linear-gradient(to right, #62cff4, #2c67f2);
+    color: white;
+    align-items: center;
+    justify-content: center;
+    font-size: 3vh;
+}
+
+.news2{
+    border: 1px solid black;
+    border-radius: 20px;
+    display:flex;
+    height: 45vh;
+    width: 25%;
+    background: linear-gradient(to right, #62cff4, #2c67f2);
+    color: white;
+    align-items: center;
+    justify-content: center;
+    font-size: 3vh;
+}
+
+.news3{
+    border: 1px solid black; 
+    border-radius: 20px;
+    display:flex;
+    height: 45vh;
+    width: 25%;
+    background: linear-gradient(to right, #62cff4, #2c67f2);
+    color: white;
+    align-items: center;
+    justify-content: center;
+    font-size: 3vh;
+}
+
+.processText{
+    justify-content: center;
+    align-items: center;
+    display:flex;
+    font-family: monospace;
+    margin: 2vh;
+    font-size: 3vh;
 }

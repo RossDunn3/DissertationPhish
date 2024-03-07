@@ -1,0 +1,86 @@
+.superContainer{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+}
+
+.adviceContainer{
+    display:flex;
+    justify-content: space-around;
+    height: 60vh;
+    margin: 0 auto;
+    width: 80%;
+    margin-top: 10vh;
+    align-items: center;
+}
+
+.contentDivide{
+    height: 80%;
+    width: 0.5vh;
+    border: 1px solid black;
+    border-radius: 20px;
+    background-color: black;
+}
+
+.adviceLeft{
+    font-size: 1.5vh;
+    width: 60%;
+    align-self: flex-start;
+    margin-top: 3%;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    font-family: monospace;
+}
+
+.leftList li{
+   text-align: center;
+   text-decoration: none;
+   list-style: none;
+   padding: 1.5vh;
+}
+
+.adviceRight{
+ 
+    width: 60%;
+    align-self: flex-start;
+    margin-top: 3%;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    font-family: monospace;
+    font-size: 1.5vh;
+}
+
+.adviceRight a{
+    color: blue;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    text-decoration: none;
+    list-style: none;
+    padding: 1vh;
+ }
+
+h1{
+    text-align: center;
+    font-family: monospace;
+    
+}
+
+.tickImage{
+    width: 10%;
+    height: 10%;
+
+}
+
+.blueTick{
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    display: flex;
+    margin-top: auto;
+    padding-top: 1vh;
+}

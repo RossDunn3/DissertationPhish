@@ -1,0 +1,16 @@
+.footer{
+display: flex;
+
+justify-content: space-between;
+background-color:white ;
+height: 8vh;
+
+align-items: center;
+font-family: monospace;
+padding: 0 4vh;
+margin-top: auto
+}
+
+.contact{
+    color: black;
+}
