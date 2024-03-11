@@ -15,80 +15,88 @@ keywords = list_of_keywords()
 
 #Sender and Receiver (Email Analysis)
 def extractDomainData(mail_entries):
-    domainDataList = []
-    if isinstance(mail_entries, dict):
-        mail_entries = [mail_entries]
-    # Initially I considered the use of a dataframe but the encoding is easier when working with dictionaries
-    #for each email dictionary in the list of dictionaries
-    for email in mail_entries:
-        senderDomain = email['Sender'].split('@')[-1]
-        recieverDomain = email['Recipient'].split('@')[-1]
-        senderDomainCount  = senderDomain.count('.')
-        recieverDomainCount = recieverDomain.count('.')
-        if 'Clasifier' in email:
-            emailClassifier = email['Classifier']
-            domainDictionary = {'SenderDomain' : senderDomain, 'ReceiverDomain': recieverDomain, 'SenderDomainCount' : senderDomainCount,  'ReceiverDomainCount': recieverDomainCount, 'Classifier' : emailClassifier}
-        else:
-            domainDictionary = {'SenderDomain' : senderDomain, 'ReceiverDomain': recieverDomain, 'SenderDomainCount' : senderDomainCount,  'ReceiverDomainCount': recieverDomainCount}
-        domainDataList.append(domainDictionary)
+    try:
+        domainDataList = []
+        if isinstance(mail_entries, dict):
+            mail_entries = [mail_entries]
+        # Initially I considered the use of a dataframe but the encoding is easier when working with dictionaries
+        #for each email dictionary in the list of dictionaries
+        for email in mail_entries:
+            senderDomain = email['Sender'].split('@')[-1]
+            recieverDomain = email['Recipient'].split('@')[-1]
+            senderDomainCount  = senderDomain.count('.')
+            recieverDomainCount = recieverDomain.count('.')
+            if 'Classifier' in email:
+                emailClassifier = email['Classifier']
+                domainDictionary = {'SenderDomain' : senderDomain, 'ReceiverDomain': recieverDomain, 'SenderDomainCount' : senderDomainCount,  'ReceiverDomainCount': recieverDomainCount, 'Classifier' : emailClassifier}
+            else:
+                domainDictionary = {'SenderDomain' : senderDomain, 'ReceiverDomain': recieverDomain, 'SenderDomainCount' : senderDomainCount,  'ReceiverDomainCount': recieverDomainCount}
+            domainDataList.append(domainDictionary)
 
-    return domainDataList
+        return domainDataList
+    except Exception as e:
+        print("ERROR - ", e)
+
 
 def alientVault_helper():
-    alienLinks = []
-    alienVault = createalienVault()
-    classifier = 1
-    for link in alienVault:
-         if link is not None:
-            alien_links = data_extraction(link)
-            alien_links["Classifier"] = classifier
-            alienLinks.append(alien_links)   
-    return alienLinks
+    try:
+        alienLinks = []
+        alienVault = createalienVault()
+        classifier = 1
+        for link in alienVault:
+            if link is not None:
+                alien_links = data_extraction(link)
+                alien_links["Classifier"] = classifier
+                alienLinks.append(alien_links)   
+        return alienLinks
+    except Exception as e:
+        print("ERROR - ", e)
 
 def data_extraction(hyperlink):
-    schemeCheck = checkUrlScheme(hyperlink)
-    domainExtract = tldextract.extract(hyperlink)
-    domainName = domainExtract.domain
-    ipCheck = checkUrlIpPresence(domainName)
-    domainSubdomain = domainExtract.subdomain
-    subDomainCount = len(domainSubdomain.split('.')) # subdomain counter
-    keyword_check = link_keywords(hyperlink)
-    keyword_count = link_keywords_count(hyperlink)
-    return {"Link" : hyperlink, "Scheme": schemeCheck, "IpCheck": ipCheck,"Domain": domainName, "SubDomain": domainSubdomain, "DomainSubcount": subDomainCount, "keyword" : keyword_check, "keyword_count" : keyword_count}
+    try:
+        schemeCheck = checkUrlScheme(hyperlink)
+        domainExtract = tldextract.extract(hyperlink)
+        domainName = domainExtract.domain
+        ipCheck = checkUrlIpPresence(domainName)
+        domainSubdomain = domainExtract.subdomain
+        subDomainCount = len(domainSubdomain.split('.')) # subdomain counter
+        lenLink = get_url_length(hyperlink)
+        keyword_check = link_keywords(hyperlink)
+        keyword_count = link_keywords_count(hyperlink)
+        return {"Link" : hyperlink, "Scheme": schemeCheck, "IpCheck": ipCheck,"Domain": domainName, "SubDomain": domainSubdomain, "DomainSubcount": subDomainCount, "keyword" : keyword_check, "keyword_count" : keyword_count, "length": lenLink}
+    except Exception as e:
+        print("Error - ", e)
+
+
 
 def linkDataExtraction(mail_entries):
-    linkList = []
-    # this needs to work on both a list of emails in training , as well as a single input in testing
-    if isinstance(mail_entries, dict):
-        mail_entries = [mail_entries]
-    for mail in mail_entries:
-        if "Classifier" in mail:
-            classifier = mail["Classifier"]
-        else:
-            classifier = "Unknown"    
-        linker = mail["Links"]
-        if linker is not None:
-            for entry in linker:
-                hyperlink = entry[0]
-                if not any(x["Link"] == hyperlink for x in linkList):
-                   combinedLinkData = data_extraction(hyperlink)
-                   combinedLinkData["Classifier"] = classifier
-                   linkList.append(combinedLinkData)
-    return linkList
+    try:
+        linkList = []
+        # this needs to work on both a list of emails in training , as well as a single input in testing
+        if isinstance(mail_entries, dict):
+            mail_entries = [mail_entries]
+        for mail in mail_entries:
+            if "Classifier" in mail:
+                classifier = mail["Classifier"]
+            else:
+                classifier = "Unknown"    
+            linker = mail["Links"]
+            if linker is not None:
+                for entry in linker:
+                    hyperlink = entry[0]
+                    if not any(x["Link"] == hyperlink for x in linkList):
+                        combinedLinkData = data_extraction(hyperlink)
+                        combinedLinkData["Classifier"] = classifier
+                        linkList.append(combinedLinkData)
+        return linkList
+    except Exception as e:
+        print("ERROR - ", e)
 
-# This is more structural analysis
-def linkDomainAnalyser(link):
-    dataList = []
-    for itrLink in link:
-            domainExtract = tldextract.extract(itrLink)
-            domainName = domainExtract.domain
-            domainSubdomain = domainExtract.subdomain
-            subDomainCount = len(domainSubdomain.split('.')) # subdomain counter
-            #domainIpChecker = checkUrlIpPresence(domainName)
-            #domainSPFCheck = checkDomainSPF(domainName)
-            extractData = {domainName,domainSubdomain,subDomainCount}#domainIpChecker}
-            dataList.append(extractData)
-    return dataList    
+
+
+
+def get_url_length(link):
+    return len(link) 
 
 def checkUrlScheme(link):
     # Lets check if the email is http or https (secure)
@@ -98,27 +106,35 @@ def checkUrlScheme(link):
             return urlScheme
     except:
         return "no scheme for this format"    
-
+    
+#Checking the the domian name of the Link in an Ip address - return ip if true and false if not (not valid)
+#https://docs.python.org/3/library/ipaddress.html
 def checkUrlIpPresence(dName):
-    #Checking the the domian name of the Link in an Ip address
     try:
         isIpAddress = ipaddress.ip_address(dName)
         return str(isIpAddress)
     except ValueError:
         return False
- 
+    
 
 def link_keywords(link):
-    for word in keywords:
-        if word.lower() in str(link).lower():
-            return 1
-    return 0    
+    try:
+        for word in keywords:
+          if word.lower() in str(link).lower():
+             return 1
+        return 0 
+    except Exception as e:
+            print("ERROR - ", e)
+
 
 def link_keywords_count(link):
-    counter = 0
-    for word in keywords:
-        counter += link.lower().count(word.lower())
-    return counter    
+    try:
+        counter = 0
+        for word in keywords:
+            counter += link.lower().count(word.lower())
+        return counter   
+    except Exception as e:
+          print("ERROR - ", e)
 
 def printHyperLinks():
     printList = linkDataExtraction()

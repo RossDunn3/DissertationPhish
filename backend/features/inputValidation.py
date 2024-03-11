@@ -5,14 +5,15 @@ import glob
 
 # we need to get the most recent file 
 # https://stackoverflow.com/questions/39327032/how-to-get-the-latest-file-in-a-folder
-def get_latest(dir):
-    file_list = glob.glob('/Users/rossdunn3/Desktop/DissertationPhish/backend/uploads/1709743480749-phishing_email.txt') 
+
+def get_latest():
+    file_list = glob.glob("/Users/rossdunn3/Desktop/DissertationPhish/backend/uploads/*") 
     latest_entry = max(file_list, key=os.path.getctime)  
     return latest_entry
 
 # Process read file coming from frontend input
 def process_txt(dir):
-    file_path = get_latest(dir)
+    file_path = get_latest()
     reader = open(file_path, "r")
     content = reader.read()
     return content
@@ -37,5 +38,4 @@ def extract_content(file):
             }
     mail_list.append(file_dictionary)
     return mail_list
-
 

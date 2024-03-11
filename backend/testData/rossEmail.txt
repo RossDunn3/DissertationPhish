@@ -1,0 +1,9 @@
+From: "Sender Name" <rossD@example.com>
+To: "Recipient Name" <alexM@example.com>
+subject: response
+
+Hi
+
+Thanks for the response, I will take that forward in the meeting
+
+Thanks, Ross

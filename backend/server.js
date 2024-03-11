@@ -4,11 +4,13 @@ const cors = require('cors');
 const multer = require('multer');
 const app = express();
 const {exec} = require('child_process');
-const { stdout, stderr } = require('process');
+const spawn = require('child_process').spawn;
+const {stdout, stderr } = require('process');
 
-const path_to_predict = "/Users/rossdunn3/Desktop/DissertationPhish/backend/features/combinedModel.py";
-
+//Ammend to own machine absolute path
+const path_to_combined = "/Users/rossdunn3/Desktop/DissertationPhish/backend/features/combinedModel.py"
 app.use(cors());
+
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -20,7 +22,7 @@ const storage = multer.diskStorage({
 });
 
 function fileFiltering(req, file, cb) {
-    if (!file.originalname.match(/\.(txt)$/)) {
+    if (!file.originalname.match(/\.(txt)$/)) { // check
         req.fileValidationError = "This server only allows the upload of txt, eml, or msg files";
         return cb(new Error('Server only allows txt, eml, or msg'), false);
     }
@@ -31,6 +33,8 @@ const upload = multer({ storage: storage });
 
 // https://stackoverflow.com/questions/62816141/get-the-file-which-send-by-the-multer-in-nodejs
 
+// https://stackoverflow.com/questions/23450534/how-to-call-a-python-function-from-node-js
+
 app.post('/upload', upload.single('file'), (req, res) => {
     if (req.fileValidationError) {
         return res.send("File format error");
@@ -38,24 +42,29 @@ app.post('/upload', upload.single('file'), (req, res) => {
     console.log('Uploaded file: ', req.file);
     console.log('File path:', req.file.path);
 
-    const path_to_combined = "/Users/rossdunn3/Desktop/DissertationPhish/backend/features/combinedModel.py"
+    const{spawn} = require('child_process');
+    const spawnProcess = spawn('python3',[path_to_combined, req.file]);
 
-    exec(`python3 ${path_to_combined}`, (error, stdout,stderr) => {
-        if(error){
-            console.error(`arghh error  ${error}`)
-            return
-        }
-        console.log(`combined prediction is: ${stdout}`);
+    prediction_data = ""
+
+    spawnProcess.stdout.on('data', function(data) {
+        prediction_data += data.toString();
+        console.log(prediction_data)
+         // https://www.simplilearn.com/tutorials/python-tutorial/split-in-python#:~:text=The%20split()%20function%20can,is%20returned%20as%20the%20output.
+         messageSplit = prediction_data.split('||')
+         outcomeSplit = messageSplit[1]
+    })
+
+    spawnProcess.on('close', function(code){
         
-        // we only want to get the final outcome, not the progress bar
-        // https://www.simplilearn.com/tutorials/python-tutorial/split-in-python#:~:text=The%20split()%20function%20can,is%20returned%20as%20the%20output.
-        messageSplit = stdout.split("||")
+        res.send(outcomeSplit);
+    })
 
-        phishOutcome = messageSplit[1];
+    /*Please ammend on another machine, could not work with relative due to path environment issues*/
 
-        res.send(phishOutcome)
-    });
+    /*https://nodejs.org/api/child_process.html*/
 });
+
 
 const port = 20502;
 app.listen(port, () => {

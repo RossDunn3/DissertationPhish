@@ -5,17 +5,9 @@ from readFile import read_mbox_file,read_enron_file
 from featureSanitisation import removingStopWords, removeTags
 from email import message_from_string
 
-
+mbox_path = 'backend/trainingData/phishing3.mbox'
 ham_file_path = 'backend/trainingData/easy_ham'
 phish_file_path = 'backend/trainingData/IWSPA-AP-traindata/phish'
-mbox_results = {}
-
-#classifier have been added manually to dictionaries (0 1) to non-spam and spam respectively (is this correct)
-
-# Need to deal with none type
-
-# Am i going to have to parse the headers as well not just text for links, (analyse header itself??)
-# Checking javascript, images?
 
 # strip html tags for plain text - https://tutorialedge.net/python/removing-html-from-string/
 tagStrip = re.compile(r'<[^>]+>|\\n|b|\\|\n')
@@ -56,68 +48,65 @@ def extract_subject_content_Mbox(message): #https://stackoverflow.com/questions/
             except LookupError:
                 continue
      return content 
-    
+
+# the code for enron and mbox are largely the same, as well as ham and phish
+
+def extraction_helper(contents):
+    # each function then defines its own classifier
+    msg = message_from_string(contents)
+    sender = str(msg.get("From", "Unknown sender"))
+    recipient = str(msg.get("To", "Unknown recipient"))
+    subject = str(msg.get("Subject", "Unknown subject")).lower()
+    date = str(msg.get("date", "Unknown date"))
+    contentType = str(msg.get("Content-Type", "Unknown content-type"))
+    content = str((extract_subject_content_Ham(msg))).lower()
+    linkListContent = extractLinks(content)
+    sanitsedContent = removingStopWords(removeTags(content)) # this needs to be after as stop word tokenisation interferes with link regex
+    content_dictionary = {  'Sender' : sender, 'Recipient' : recipient, 'Subject' : subject, 'Date' : date, 'Content-Type': contentType, 'Content': sanitsedContent, 'Links': linkListContent}
+    return content_dictionary
+
+
 #no limit set as less than limit files available
 def extract_Phish():
+    classifier = 1
     phishList = []
     try:
      for file in os.listdir(phish_file_path):
         fileP = os.path.join(phish_file_path, file)
         with open(fileP, 'r', encoding='utf-8', errors='ignore') as file:
             contents = file.read()
-            msg = message_from_string(contents)
-            sender = str(msg.get("From", "Unknown sender"))
-            recipient = str(msg.get("To", "Unknown recipient"))
-            subject = str(msg.get("Subject", "Unknown subject")).lower()
-            date = str(msg.get("date", "Unknown date"))
-            contentType = str(msg.get("Content-Type", "Unknown content-type"))
-            content = str((extract_subject_content_Ham(msg))).lower()
-            linkListContent = extractLinks(content)
-            sanitsedContent = removingStopWords(removeTags(content)) # this needs to be after as stop word tokenisation interferes with link regex
-            classifier = 1
-            phishDictionary = {
-                'Sender' : sender, 'Recipient' : recipient, 'Subject' : subject, 'Date' : date, 'Content-Type': contentType, 'Content': sanitsedContent, 'Links': linkListContent, 'Classifier': classifier
-            }
-            phishList.append(phishDictionary)
+            content_dictionary = extraction_helper(contents)
+            content_dictionary["Classifier"] = classifier
+            phishList.append(content_dictionary)
      return phishList
     
     except Exception as e:
-        print(e)    
+        print("ERROR - ",e)    
+
 
 def extract_enron(limit=1500):
+    classifier = 0
     enron_list = []
     try:
         enron_mail = read_enron_file()
         count = 0
         for message in enron_mail:
-            msg = message_from_string(message)
-            sender = str(msg.get("From", "Unknown sender"))
-            recipient = str(msg.get("To", "Unknown recipient"))
-            subject = str(msg.get("Subject", "Unknown subject")).lower()
-            date = str(msg.get("date", "Unknown date"))
-            contentType = str(msg.get("Content-Type", "Unknown content-type"))
-            content = str((extract_subject_content_Ham(msg))).lower()
-            linkListContent = extractLinks(content)
-            sanitsedContent = removingStopWords(removeTags(content)) # this needs to be after as stop word tokenisation interferes with link regex
-            classifier = 0 
-            enronDictionary = {
-                'Sender' : sender, 'Recipient' : recipient, 'Subject' : subject, 'Date' : date, 'Content-Type': contentType, 'Content': sanitsedContent, 'Links': linkListContent, 'Classifier': classifier
-            }
-      
-            enron_list.append(enronDictionary)
-            count +=1
-            if count >= limit:
-                break
-
-      
+          enron_dictionary = extraction_helper(message)
+          enron_dictionary["Classifier"] = classifier
+          enron_list.append(enron_dictionary)
+          count +=1
+          if count >= limit:
+             break
         return enron_list   
     except Exception as e:
-        return e
+        print("ERROR - ", e)
+
+
 
 def extract_mbox(limit=1300): #https://stackoverflow.com/questions/1463074/how-can-i-get-an-email-messages-text-content-using-python
     mboxList = []
     try:
-        mbox = read_mbox_file()
+        mbox = read_mbox_file(mbox_path)
         count = 0
         for message in mbox:
             contentType = str(message.get("Content-Type", "unknown content type")) # could break
@@ -132,23 +121,23 @@ def extract_mbox(limit=1300): #https://stackoverflow.com/questions/1463074/how-c
                 classifier = 1 
                 mboxDictionary = {
                     'Sender' : sender, 'Recipient' : recipient, 'Subject' : subject, 'Date' : date, 'Content-Type': contentType, 'Content': sanitisedContent, 'Links': linkListContent, 'Classifier': classifier
-            }
+                }
 
                 mboxList.append(mboxDictionary)
                 count += 1
            
-
                 if count >= limit:
                     break
-            
         return mboxList
               
     except Exception as e:
-        print (e)
+        print ("ERROR - ", e)
+
 
 #change this to loop over folder, it only works on one file - duplicate code from readFile.py (will ammend)
 def extract_ham(limit = 1800):
     count = 0
+    classifier = 0
     hamList = []
     try:
       for file in os.listdir(ham_file_path):
@@ -156,28 +145,14 @@ def extract_ham(limit = 1800):
         with open(fileP, 'r', encoding='utf-8', errors='ignore') as file:
             contents = file.read()
             count = count + 1 
-            msg = message_from_string(contents)
-            sender = str(msg.get("From", "Unknown sender"))
-            recipient = str(msg.get("To", "Unknown recipient"))
-            subject = str(msg.get("Subject", "Unknown subject")).lower()
-            date = str(msg.get("date", "Unknown date"))
-            contentType = str(msg.get("Content-Type", "Unknown content-type"))
-            content = str((extract_subject_content_Ham(msg))).lower()
-            linkListContent = extractLinks(content)
-            sanitsedContent = removingStopWords(removeTags(content)) # this needs to be after as stop word tokenisation interferes with link regex
-            classifier = 0 
-            hamDictionary = {
-                'Sender' : sender, 'Recipient' : recipient, 'Subject' : subject, 'Date' : date, 'Content-Type': contentType, 'Content': sanitsedContent, 'Links': linkListContent, 'Classifier': classifier
-            }
-      
-            hamList.append(hamDictionary)
-
+            ham_dictionary = extraction_helper(contents)
+            ham_dictionary["Classifier"] = classifier
+            hamList.append(ham_dictionary)
         if count >= limit:
             break
-
       return hamList
 
     except Exception as e:
-        print(e)
+        print("ERROR - ", e)
 
 

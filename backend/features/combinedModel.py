@@ -62,22 +62,30 @@ def bert_extractor(mail):
 
 # Combined predicton - not finalised as 0 links can contribute to legitimacy, instead of 0 score
 def combined_prediction(mail):
+    total_score = 0
     xgBoost_decision = xgBoost_extractor(mail)
-
+    #print("xgboost decsion:" ,xgBoost_decision)
     bert_decision = bert_extractor(mail)
-
-    if xgBoost_decision >0: 
-        final_decision = xgBoost_decision + bert_decision / 2
+    #print("bert decision: ",  bert_decision)
+    for prediction in xgBoost_decision:
+        #print("link score: ",prediction)
+        total_score += prediction 
+   # print("total_score", total_score)    
+    final_xgboost_num = total_score / len(xgBoost_decision)      
+    #print("final xgboost avg:", final_xgboost_num) 
+    if final_xgboost_num > 0: 
+        final_decision = final_xgboost_num + bert_decision / 2
     else:
         final_decision = bert_decision    
   
-    if final_decision > 0.6:
-        print("||WARNING - This email is a phish!")
+    #print(final_decision)
+    if final_decision > 0.65:
+        print("||WARNING - This email is a predicted phish!")
     else:
-        print("||Normal email")
+        print("||Precited - Normal email")
 
 # calling to test
-#print(combined_prediction("/Users/rossdunn3/Desktop/DissertationPhish/backend/uploads/"))
+#print(combined_prediction("/Users/rossdunn3/Desktop/DissertationPhish/backend/testData/testerNormal1.txt"))
 
 #frontend  calls    
 if __name__ == "__main__":
@@ -86,7 +94,8 @@ if __name__ == "__main__":
 
 
 
- 
+
+
 
 
                                                               

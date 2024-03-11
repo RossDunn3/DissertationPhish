@@ -6,9 +6,10 @@ from nltk.tokenize import word_tokenize
 nltk.download('stopwords')
 nltk.download('punkt')
 
-def removingStopWords(content): 
+# comment this
+def removingStopWords(content): #https://stackoverflow.com/questions/5486337/how-to-remove-stop-words-using-nltk-or-python
     if content is None:
-        return "No content to remove"
+        return "No content to remove stop words"
     else:
         stopWording = set(stopwords.words('english'))
         tokenText = word_tokenize(content)

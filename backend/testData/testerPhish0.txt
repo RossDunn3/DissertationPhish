@@ -1,0 +1,13 @@
+Dear Customer,
+
+We've detected unusual activity in your account. For your security, we need you to verify your account information immediately.
+
+Please log in using the link below to verify your account:
+
+http://examplebank.com/login/verify-account
+
+Failure to verify your account within 24 hours will result in account suspension.
+
+Sincerely,
+Customer Support
+Example Bank

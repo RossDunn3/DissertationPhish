@@ -36,6 +36,14 @@ def get_keyword_count(link_entry):
   keywordCountDf = pandas.DataFrame(keywordCountList, columns=["Keyword_count"])
   return keywordCountDf  
 
+def get_length_hyperlink(link_entry):
+  lenList = []
+  for link in link_entry:
+    linkDict = link["length"]
+    lenList.append(linkDict)
+  lenCountDf = pandas.DataFrame(lenList, columns=["length"])  
+  return lenCountDf
+
 def getListofCounts(link_entry):
   countList = []
   for link in link_entry:
@@ -91,8 +99,10 @@ def collateLinkData(link_entry): # https://stackoverflow.com/questions/53877687/
   domainSubCounterEncoding = getListofCounts(link_entry)
   keywordPresence = get_keyword_presence(link_entry)
   keyword_count = get_keyword_count(link_entry)
+  length = get_length_hyperlink(link_entry)
   classifier = getClassifer(link_entry)
-  listOfLinkFrame = [hyperlinkSchemeEncoding,ipEncoding,domainEncoding,subDomainEncoding,domainSubCounterEncoding,keywordPresence,keyword_count]
+
+  listOfLinkFrame = [hyperlinkSchemeEncoding,ipEncoding,domainSubCounterEncoding,keywordPresence,keyword_count,length]
   if classifier is not None:
     listOfLinkFrame.append(classifier)
   completeLinkFrame = pandas.concat(listOfLinkFrame, axis=1)

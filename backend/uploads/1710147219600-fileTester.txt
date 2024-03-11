@@ -1,0 +1,20 @@
+Dear Valued Customer,
+
+We have detected multiple unauthorized login attempts on your account from a foreign IP address. As a preventive measure, we have temporarily suspended access to your account to safeguard your personal information.
+
+Immediate Action Required:
+
+To secure your account and reset your access, you must verify your identity and update your security details through the link below immediately:
+
+Verify Your Account Now: http://example-phishingsite.com/verify
+
+Failure to complete this verification within 24 hours will result in permanent account suspension as a security precaution.
+
+We understand the inconvenience this may cause, but the security of your account and personal information is our top priority.
+
+Thank you for your prompt attention to this urgent security matter.
+
+Warm Regards,
+
+Customer Security Department
+Example Bank

@@ -12,7 +12,6 @@ def randomise_data():
     ham = extract_ham()
     phish = extract_Phish()
     enron = extract_enron()
-
     combined_mail = mbox + ham + phish + enron
     random.shuffle(combined_mail) # ensure random spread of data , https://favtutor.com/blogs/shuffle-list-python
     return combined_mail
@@ -22,6 +21,6 @@ def save_random_data(filename):
     combined_mail = randomise_data()
     with open(filename, "wb") as f:
         pickle.dump(combined_mail, f)
-    print(f"Data has been shuffled and saved to {filename}.")
+    print("Data has been shuffled ")
 
 save_random_data(filepath)

@@ -4,6 +4,8 @@ import '/Users/rossdunn3/Desktop/DissertationPhish/frontend/src/styles/predictio
 import axios from 'axios';
 
 /*https://stackoverflow.com/questions/66736080/axios-html-show-value-on-div*/ 
+
+/* https://www.filestack.com/fileschool/react/react-file-upload/ */
 function PredictionPage() {
     const [file, setFile] = useState(null);
     const [prediction, setPrediction] = useState('')
@@ -33,18 +35,12 @@ function PredictionPage() {
             alert('File uploaded successfully!');
             alert('Prediciting')
             setPrediction(response.data);
-      
-
             
         }).catch(error => {
             console.error('Error:', error);
             alert('File upload failed!');
         });
-
-        // lets capture the res send
-
-    
-      // change resultContainer if needed
+  
     }
 
     return (

@@ -1,4 +1,5 @@
 # apply BERT for NLP Task - https://github.com/codebasics/deep-learning-keras-tf-tutorial/blob/master/47_BERT_text_classification/BERT_email_classification-handle-imbalance.ipynb
+# youtube - https://www.youtube.com/watch?v=hOCDJyZ6quA&t=616s
 import pandas
 import tensorflow as tf
 import tensorflow_hub as hub
@@ -18,13 +19,14 @@ def load_pickle(filename):
 
 combined_mail = load_pickle("/Users/rossdunn3/Desktop/DissertationPhish/backend/features/random_data.pkl")     
 
-def get_language_features(mail_entry): #works
+def get_language_features(mail_entry): #works in both model training and direction
    nlpList = []
    if isinstance(mail_entry, dict):
         mail_entry = [mail_entry]
    for mail in mail_entry:
         subject = str(mail["Subject"])
         content = str(mail["Content"])
+        #if in training or in predicting
         if "Classifier" in mail:
             classifier = mail['Classifier']
             nlpDictionary = {"Classifier": classifier, "Subject": subject, "Content": content}
