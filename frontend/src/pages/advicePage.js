@@ -1,11 +1,14 @@
 import React from 'react';
-import '/Users/rossdunn3/Desktop/DissertationPhish/frontend/src/styles/advicePage.css'
+import '../styles/advicePage.css'
 
 
 function advicePage(){
     return(
-     <div className="superContainer">
+     <div className="superContainer">     
+             <text>What is phishing?</text>  
+                <p>Phishing is the process of fraudulently representing a legitimate entity to trick victims into revealing sensitive information. </p>
         <div className="adviceContainer">
+      
            <div className="adviceLeft">
             <h1> Phishing Advice </h1>
                 <div className="leftList">
@@ -21,7 +24,7 @@ function advicePage(){
            </div>
            <div className="contentDivide"></div>
            <div className="adviceRight">
-                <h1> Useful Resources </h1>
+                <h1> Phishing Resources </h1>
                 <div className="leftList">
                 <ul>
                     <a href="https://business.bankofscotland.co.uk/help/online-security/suspicious-emails-texts.html#:~:text=Spotting%20a%20fake%20Bank%20of%20Scotland%20email&text=We%20never%20ask%20you%20to,messy%20layout%20and%20spelling%20mistakes.">Bank of Scotland</a>

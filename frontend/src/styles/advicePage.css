@@ -3,8 +3,10 @@
     flex-direction: column;
     flex-wrap: wrap;
     justify-content: space-between;
+    font-family: monospace;
 
 }
+
 
 .adviceContainer{
     display:flex;
@@ -12,9 +14,23 @@
     height: 60vh;
     margin: 0 auto;
     width: 80%;
-    margin-top: 10vh;
+    margin-top: 3vh;
     align-items: center;
 }
+
+.superContainer text{
+    display: block;
+    text-align: center;
+    margin-top: 3%;
+    font-size: 4vh;
+  
+}
+
+.superContainer p{
+    text-align: center;
+    margin-top: 3%;
+}
+
 
 .contentDivide{
     height: 80%;
@@ -25,6 +41,7 @@
 }
 
 .adviceLeft{
+
     font-size: 1.5vh;
     width: 60%;
     align-self: flex-start;
@@ -42,8 +59,13 @@
    padding: 1.5vh;
 }
 
+.leftList ul{
+    padding: 0;
+    justify-content: center;
+}
+
 .adviceRight{
- 
+
     width: 60%;
     align-self: flex-start;
     margin-top: 3%;
@@ -52,6 +74,11 @@
     flex-direction: column;
     font-family: monospace;
     font-size: 1.5vh;
+}
+
+.adviceRight ul{
+    padding: 0;
+    justify-content: center;
 }
 
 .adviceRight a{
@@ -70,17 +97,7 @@ h1{
     
 }
 
-.tickImage{
-    width: 10%;
-    height: 10%;
 
-}
 
-.blueTick{
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    display: flex;
-    margin-top: auto;
-    padding-top: 1vh;
-}
+
+

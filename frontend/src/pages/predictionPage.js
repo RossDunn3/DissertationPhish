@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 /*import { Link } from 'react-router-dom';*/
-import '/Users/rossdunn3/Desktop/DissertationPhish/frontend/src/styles/predictionPage.css'
+import '../styles/predictionPage.css'
 import axios from 'axios';
 
 /*https://stackoverflow.com/questions/66736080/axios-html-show-value-on-div*/ 
@@ -10,6 +10,7 @@ function PredictionPage() {
     const [file, setFile] = useState(null);
     const [prediction, setPrediction] = useState('')
 
+
     function handleChange(event) {
         setFile(event.target.files[0]);
     }
@@ -18,7 +19,7 @@ function PredictionPage() {
         event.preventDefault();
 
         if (!file) {
-            console.error('No file selected for upload.');
+            alert('No file selected for upload.');
             return;
         }
 
@@ -26,14 +27,16 @@ function PredictionPage() {
         const formData = new FormData();
         formData.append('file', file); 
         
+        alert('File uploaded successfully - Prediction in progress');
+
         axios.post(url, formData, {
             headers: {
                 'content-type': 'multipart/form-data',
             }
+         
         }).then(response => {
             console.log(response.data);
-            alert('File uploaded successfully!');
-            alert('Prediciting')
+            alert('Predcition received')
             setPrediction(response.data);
             
         }).catch(error => {
@@ -46,22 +49,27 @@ function PredictionPage() {
     return (
         <div className="predictionContainer">
             <div className="predictionHeader">
-                <text>Phishing Analyser</text>
+                <text>Phishing Email Analyser</text>
+            </div>
+            <div class="timeMessage">
+                <text>Please be aware the result may take some time to process</text>
             </div>
             <div className="fileContainer">
                 <form onSubmit={handleFile}>
                    <text>Please Upload Email </text>
                     <div className="buttonContainer">
-                    <input id="file" type="file" onChange={handleChange} accept=".txt"/>
+                    <input id="file" type="file" onChange={handleChange} accept=".txt, .msg, .eml"/>
                     <div className="submitContainer">
                         <button class="button" type="submit">Get Prediction</button>
                     </div>
                     </div>
                 </form>
             </div>
+
         <div className="divider"></div>    
         <div className="verdictContainer">
-            <header>Result</header>
+            <header>Predicted result:</header>
+
             <div className="resultContainer" id ="prediction">{prediction}</div>  
         </div>   
         <div className="adviceContainment">

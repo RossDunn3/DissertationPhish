@@ -1,5 +1,4 @@
 # Last step after features are extracted , they need to be encoded for model use
-from sklearn.feature_extraction import FeatureHasher
 import pandas
 from sklearn.preprocessing import LabelEncoder
 
@@ -7,109 +6,77 @@ from sklearn.preprocessing import LabelEncoder
 
 # example link - {'Link': 'n', 'Scheme': '', 'IpCheck': False, 'Domain': 'n', 'SubDomain': '', 'DomainSubcount': 1, 'Classifier': 0}
 
-featureHasher = FeatureHasher(n_features=200) # start with 200 (adapt)
-# Apply encoding to the domains in the dictionary but not the counts or the classifier
+# The followng code will encode each extracted feature before they are passed to they gradient boost algorithm
 
-def schemeEncoding(link_entry):
-  schemeList = []
-  for link in link_entry:
-    if link['Scheme'] == 'https':
-      schemeList.append(1)
-    else:
-      schemeList.append(0)  
-  schemeDf = pandas.DataFrame(schemeList, columns=['SchemeHTTP'])
-  return schemeDf
-
-def get_keyword_presence(link_entry):
-  keywordList = []
-  for link in link_entry:
-    keywordDictEntry = link['keyword']
-    keywordList.append(keywordDictEntry)
-  keywordDf = pandas.DataFrame(keywordList, columns=["Keyword_Presence"])
-  return keywordDf  
-
-def get_keyword_count(link_entry):
-  keywordCountList = []
-  for link in link_entry:
-    keywordDictEntry = link['keyword_count']
-    keywordCountList.append(keywordDictEntry)
-  keywordCountDf = pandas.DataFrame(keywordCountList, columns=["Keyword_count"])
-  return keywordCountDf  
-
-def get_length_hyperlink(link_entry):
-  lenList = []
-  for link in link_entry:
-    linkDict = link["length"]
-    lenList.append(linkDict)
-  lenCountDf = pandas.DataFrame(lenList, columns=["length"])  
-  return lenCountDf
-
-def getListofCounts(link_entry):
-  countList = []
-  for link in link_entry:
-    DomainSubCounter = link['DomainSubcount']
-    countList.append(DomainSubCounter)
-  countDf = pandas.DataFrame(countList, columns=["subDomainCount"])  
-  return countDf
-
-def getClassifer(link_entry):
-  classifierList = []
-  for link in link_entry:
-    if 'Classifier' in link:
-      classifier = link['Classifier']  # needs to be adjusted for live purpose
-      classifierList.append(classifier)
-    if not classifierList:
-      return None  
-  classifierDf = pandas.DataFrame(classifierList, columns=["Classifier"])  
-  return classifierDf
+#Purpose: Get classifier from each mail entry
+def get_classifer(link_entry):
+  try:
+    classifier_list = []
+    for link in link_entry:
+      if 'Classifier' in link:
+        classifier = link['Classifier']  
+        classifier_list.append(classifier)
+      if not classifier_list:
+        return None  
+    classifier_df = pandas.DataFrame(classifier_list, columns=["Classifier"])  
+    return classifier_df
+  except IndexError:
+    raise IndexError("Index error in classifier function")
+  except TypeError:
+    raise TypeError("Type error in classifier function")
   
-def encodeLinkDomains(link_entry): 
-  labelEncoder = LabelEncoder()
-  encodedDomainsList = []
-  encodedSubDomainsList = []
-  for link in link_entry:
-    domainsDictEntry = link['Domain']
-    subDomainsDictEntry = link['SubDomain']
-    encodedDomainsList.append(domainsDictEntry)
-    encodedSubDomainsList.append(subDomainsDictEntry)
-  hashedLinkDomains = labelEncoder.fit_transform(encodedDomainsList)
-  hashedSubDomains = labelEncoder.fit_transform(encodedSubDomainsList)
-  hashLinkDf = pandas.DataFrame(hashedLinkDomains, columns=["domain"])
-  hashSubDomainDf = pandas.DataFrame(hashedSubDomains, columns=["subdomain"])
-  return hashLinkDf,hashSubDomainDf
 
-# Apply encoding to the links Ip check 
-def encodeIp(link_entry):
-  ipList = []
-  for link in link_entry:
-    if link['IpCheck'] == False:
-      ipList.append(0)
-    else:
-      ipList.append(1)
-  ipDf = pandas.DataFrame(ipList, columns=['Ip'])    
-  return ipDf
+# Purpose: Apply encoding to the links Ip check 
+def encode_ip(link_entry):
+  try:
+    ip_list = []
+    for link in link_entry:
+      if link['IpCheck'] == False:
+        ip_list.append(0)
+      else:
+        ip_list.append(1)
+    ip_df = pandas.DataFrame(ip_list, columns=['Ip'])    
+    return ip_df
+  except IndexError:
+    raise IndexError("Index error in encode IP function")
+  except TypeError:
+    raise TypeError("Type error in encode IP function")
+  except KeyError:
+    raise KeyError("Key error in encode IP function")
+  
+#Purpose: Abstracted function - obtains data for link length, keyword presence, keyword count and domain sub counter
+def encoding_helper(link_entry, key, column):
+  try:
+    data_list = []
+    for link in link_entry:
+      if key in link:
+          key_dict = link[key]
+          data_list.append(key_dict)
+    data_dictionary = pandas.DataFrame(data_list, columns=[column])
+    return data_dictionary
 
-
-# having problems with data type of dataframe in model, encoding entire list should fix it    
-def collateLinkData(link_entry): # https://stackoverflow.com/questions/53877687/how-can-i-concat-multiple-dataframes-in-python
-  hyperlinkSchemeEncoding = schemeEncoding(link_entry)
-  ipEncoding = encodeIp(link_entry)
-  domainEncoding = encodeLinkDomains(link_entry)[0]
-  subDomainEncoding = encodeLinkDomains(link_entry)[1]
-  domainSubCounterEncoding = getListofCounts(link_entry)
-  keywordPresence = get_keyword_presence(link_entry)
-  keyword_count = get_keyword_count(link_entry)
-  length = get_length_hyperlink(link_entry)
-  classifier = getClassifer(link_entry)
-
-  listOfLinkFrame = [hyperlinkSchemeEncoding,ipEncoding,domainSubCounterEncoding,keywordPresence,keyword_count,length]
-  if classifier is not None:
-    listOfLinkFrame.append(classifier)
-  completeLinkFrame = pandas.concat(listOfLinkFrame, axis=1)
-  return completeLinkFrame
-
-#enron dataset adds an extra 637 links to the dataset , from 1302 to 1939 - that is at an enron count of 1500
+  except IndexError:
+    raise IndexError("Index error in encoding")
+  except TypeError:
+    raise TypeError("Type error in encoding")
+  except KeyError:
+    raise KeyError("Key error in encoding")
 
 
-
+# Purpose: Collects all encoded data before passed to XGBoost model - stacks in position  
+def collate_linkdata(link_entry): # https://stackoverflow.com/questions/53877687/how-can-i-concat-multiple-dataframes-in-python
+  try:
+    ip_encoding = encode_ip(link_entry)
+    domainsubcounter_encoding = encoding_helper(link_entry, 'DomainSubcount', 'subDomainCount')
+    keyword_presence = encoding_helper(link_entry, 'keyword', 'Keyword_Presence')
+    keyword_count = encoding_helper(link_entry, 'keyword_count', 'Keyword_count')
+    length = encoding_helper(link_entry, 'length', 'length')
+    classifier = get_classifer(link_entry)
+    list_of_link_frame = [ip_encoding,domainsubcounter_encoding,keyword_presence,keyword_count,length]
+    if classifier is not None:
+      list_of_link_frame.append(classifier)
+    completeLinkFrame = pandas.concat(list_of_link_frame, axis=1)
+    return completeLinkFrame
+  except Exception as e:
+    raise e
 

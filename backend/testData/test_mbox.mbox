@@ -1,0 +1,11 @@
+From MAILER-DAEMON Sat Mar 23 16:12:43 2024
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: Test Email
+From: sender@example.com
+To: recipient@example.com
+Date: Sat, 23 Mar 2024 16:12:43 +0000
+
+This is a test email message.
+

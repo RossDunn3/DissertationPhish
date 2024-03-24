@@ -9,8 +9,10 @@ const {stdout, stderr } = require('process');
 
 //Ammend to own machine absolute path
 const path_to_combined = "/Users/rossdunn3/Desktop/DissertationPhish/backend/features/combinedModel.py"
+
 app.use(cors());
 
+// multe middleware in handling multipart/form data
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -21,13 +23,6 @@ const storage = multer.diskStorage({
     }
 });
 
-function fileFiltering(req, file, cb) {
-    if (!file.originalname.match(/\.(txt)$/)) { // check
-        req.fileValidationError = "This server only allows the upload of txt, eml, or msg files";
-        return cb(new Error('Server only allows txt, eml, or msg'), false);
-    }
-    cb(null, true)
-}
 
 const upload = multer({ storage: storage });
 
@@ -43,8 +38,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
     console.log('File path:', req.file.path);
 
     const{spawn} = require('child_process');
-    const spawnProcess = spawn('python3',[path_to_combined, req.file]);
-
+    const spawnProcess = spawn('python3',[path_to_combined, req.file.path]);
     prediction_data = ""
 
     spawnProcess.stdout.on('data', function(data) {
@@ -59,6 +53,10 @@ app.post('/upload', upload.single('file'), (req, res) => {
         
         res.send(outcomeSplit);
     })
+
+    spawnProcess.on('error', (error) => {
+        console.error('Failed in spawn processing', error)
+    });
 
     /*Please ammend on another machine, could not work with relative due to path environment issues*/
 

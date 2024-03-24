@@ -1,5 +1,5 @@
 import React from 'react';
-import LandingPage from '/Users/rossdunn3/Desktop/DissertationPhish/frontend/src/pages/landingPage.js';
+import LandingPage from '../src/pages/landingPage.js';
 import AdvicePage from '/Users/rossdunn3/Desktop/DissertationPhish/frontend/src/pages/advicePage.js';
 import PredictionPage from './pages/predictionPage';
 import Navbar from '/Users/rossdunn3/Desktop/DissertationPhish/frontend/src/components/navbar.js'

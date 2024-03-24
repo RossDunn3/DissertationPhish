@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '/Users/rossdunn3/Desktop/DissertationPhish/frontend/src/styles/navbar.css'
+import '../styles/navbar.css'
 /*import { Link } from 'react-router-dom';*/
 
 function Navbar() {
@@ -11,7 +11,7 @@ function Navbar() {
                     <Link to = "/">Home</Link>
                     <Link to = "/advice">Advice</Link>
                     <Link to = "/prediction">Prediction</Link>
-                    <Link to = "/">Profile</Link>
+       
                 </div>
         </nav>
 

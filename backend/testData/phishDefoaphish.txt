@@ -10,7 +10,7 @@ Immediate Action Required:
 
 To secure your account and reset your access, you must verify your identity and update your security details through the link below immediately:
 
-Verify Your Account Now: http://example-phishingsite.com/verify
+Verify Your Account Now: http://example-phishingsite.com/verify, https://paddy.com
 
 Failure to complete this verification within 24 hours will result in permanent account suspension as a security precaution.
 

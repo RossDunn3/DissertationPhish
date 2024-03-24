@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '/Users/rossdunn3/Desktop/DissertationPhish/frontend/src/styles/landingPage.css'
+import '../styles/landingPage.css'
 import phishImg from '..//13435453.png';
 
 function landingPage() {
