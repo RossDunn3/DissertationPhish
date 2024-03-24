@@ -10,7 +10,7 @@ from NLP import get_language_features
 from inputValidation import extract_content
 import sys
 
-bert_path = '/Users/rossdunn3/Desktop/DissertationPhish/backend/features/bert_model_updated'
+bert_path = '/Users/rossdunn3/Desktop/DissertationPhish/backend/features/bertModel'
 gradientBoost_path = '/Users/rossdunn3/Desktop/DissertationPhish/backend/features/gradient_boost_model_update_weight.bin'
 
 # confusion matrix code 
@@ -34,7 +34,7 @@ def xgBoost_extractor():
     else:
        return 0 # default
 
-print(xgBoost_extractor())
+
 
 # Retrieve domain data and drop numeric values as not meaningful in text semantics
 def get_input_domainData(): # works
@@ -48,6 +48,8 @@ def get_input_languageData():
     input_data = extract_content()
     language_data = get_language_features(input_data)
     return language_data
+
+print(get_input_languageData())
 
 
 # this is predicting off single emails - change when frontend can handle >1 mail at a time

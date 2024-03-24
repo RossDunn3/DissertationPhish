@@ -127,7 +127,7 @@ def train_bert():
         plt.close()
 
 
-        model_path = "backend/features/bert_model_updated"
+        model_path = "backend/features/bertModel"
         bert_model.save(model_path)
 
 #uncomment to run model
