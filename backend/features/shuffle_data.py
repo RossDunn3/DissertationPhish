@@ -1,7 +1,6 @@
 # Randomising data - ensures once randomised child fuctions use the same data for accuractely weighted predictions
 import random
 import pickle
-# investigate this as a fix!
 from featureExtraction import extract_mbox, extract_ham, extract_Phish, extract_enron
 
 #save path
