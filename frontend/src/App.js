@@ -1,10 +1,10 @@
 import React from 'react';
 import LandingPage from '../src/pages/landingPage.js';
-import AdvicePage from '/Users/rossdunn3/Desktop/DissertationPhish/frontend/src/pages/advicePage.js';
-import PredictionPage from './pages/predictionPage';
-import Navbar from '/Users/rossdunn3/Desktop/DissertationPhish/frontend/src/components/navbar.js'
-import Footer from '/Users/rossdunn3/Desktop/DissertationPhish/frontend/src/components/footer.js'
-import '/Users/rossdunn3/Desktop/DissertationPhish/frontend/src/App.css'
+import AdvicePage from '../src/pages/advicePage.js';
+import PredictionPage from '../src/pages/predictionPage';
+import Navbar from '../src/components/navbar.js'
+import Footer from '../src/components/footer.js'
+import '../src/App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {

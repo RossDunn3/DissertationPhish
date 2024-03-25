@@ -1,6 +1,0 @@
-From: Joe@Bunting.com
-To: Mary@Bunting.com
-Subject: Get Bread
-Content-Type: text/plain
-
-Please get some bread from the shops

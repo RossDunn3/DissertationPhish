@@ -20,8 +20,8 @@ def load_pickle(filename):
           combined_mail = pickle.load(file)
      return combined_mail
 
+#needs to be ammended to host absolute path
 combined_mail = load_pickle("/Users/rossdunn3/Desktop/DissertationPhish/backend/features/random_data.pkl")     
-
 
 #Purpose: Retrieve the content subject and body from emails - If training, append classifier
 def get_language_features(mail_entry): #works in both model training and direction
@@ -46,8 +46,6 @@ def get_language_features(mail_entry): #works in both model training and directi
    except KeyError:
         raise KeyError("Key error in language features")
         
-
-
 #Purpose: Retrieve the domain sender and receiver domains from emails - If training, append classifier
 def get_domain_features(mail_entry): # works
      try:
@@ -105,16 +103,13 @@ def train_bert():
         dense_layer = tf.keras.layers.Dense(1, activation='sigmoid', name="model_output")(dropout_layer)
         bert_model = tf.keras.Model(inputs=[text_content], outputs = [dense_layer])
 
-
         # Analysing model performance
         # BERT metrics
 
         BERT_metrics = [tf.keras.metrics.BinaryAccuracy(name="accuracy"), tf.keras.metrics.Recall(name="recall"), tf.keras.metrics.Precision(name="precision")]
         bert_model.compile(optimizer='adam', loss='binary_crossentropy', metrics=BERT_metrics)
 
-        
         bert_model.fit(x_train,y_train, epochs=20)
-
 
         predict_test = bert_model.predict(x_test)
         y_prediction = (predict_test > 0.5).astype(int)
@@ -125,7 +120,6 @@ def train_bert():
 
         plt.savefig('backend/features/confusionBert', dpi=300)
         plt.close()
-
 
         model_path = "backend/features/bertModel"
         bert_model.save(model_path)

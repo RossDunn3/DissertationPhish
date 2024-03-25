@@ -1,4 +1,3 @@
-# Further extraction of features from the returned dictionaries
 from readFile import createalienVault
 import tldextract
 import ipaddress
@@ -66,7 +65,6 @@ def alientVault_helper():
 def linkData_extraction(mail_entries):
     try:
         link_list = []
-        # this needs to work on both a list of emails in training , as well as a single input in testing
         if isinstance(mail_entries, dict):
             mail_entries = [mail_entries]
         for mail in mail_entries:

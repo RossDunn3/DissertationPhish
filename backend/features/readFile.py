@@ -1,6 +1,5 @@
 import pandas 
 import mailbox
-import pandas
 import os
 
 # Reading in mBox files 
@@ -9,7 +8,6 @@ import os
 
 # Reading the files for both the spam and non-spam (ham messages)
 
-# Ammend these file paths for external use 
 mbox_file_path = 'backend/trainingData/phishing3.mbox'
 phish_file_path = 'backend/trainingData/IWSPA-AP-traindata/phish'
 alien_file_path = 'backend/trainingData/alientVaultData.csv'
@@ -35,7 +33,7 @@ def read_mbox_file(file_path):
 
 
 # https://remarkablemark.org/blog/2020/08/26/python-iterate-csv-rows/
-# Purpose: Read alie data csv and transform to dataframe
+# Purpose: Read alien data csv and transform to dataframe
 def read_alien_data(file_path):
     try:
         alien_vault_df = pandas.read_csv(file_path)

@@ -2,7 +2,8 @@ import unittest
 import sys
 import tldextract
 
-sys.path.append('/Users/rossdunn3/Desktop/DissertationPhish/backend/features')
+
+sys.path.append('backend/features')
 
 import featureEngineering
 

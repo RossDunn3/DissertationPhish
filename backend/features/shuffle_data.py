@@ -1,4 +1,3 @@
-# Randomising data - ensures once randomised child fuctions use the same data for accuractely weighted predictions
 import random
 import pickle
 from featureExtraction import extract_mbox, extract_ham, extract_Phish, extract_enron
@@ -7,6 +6,7 @@ from featureExtraction import extract_mbox, extract_ham, extract_Phish, extract_
 filepath = "backend/features/random_data.pkl"
 
 #Purpose: retrieve content and randomise total email list for utilising functions
+#https://favtutor.com/blogs/shuffle-list-python
 def randomise_data():
     try:
         mbox = extract_mbox()
@@ -14,14 +14,14 @@ def randomise_data():
         phish = extract_Phish()
         enron = extract_enron()
         combined_mail = mbox + ham + phish + enron
-        random.shuffle(combined_mail) # ensure random spread of data , https://favtutor.com/blogs/shuffle-list-python
+        random.shuffle(combined_mail) # ensure random spread of data 
         return combined_mail
     except Exception as e:
         raise e
     
 
-
 #Purpose: Randomise email data and save for recall in NLP and Gradient boost
+#https://pythonbasics.org/pickle/
 def save_random_data(filename):
     try:
         combined_mail = randomise_data()

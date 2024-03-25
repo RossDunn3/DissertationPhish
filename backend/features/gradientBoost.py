@@ -7,7 +7,7 @@ from sklearn.metrics import confusion_matrix
 from featureEngineering import linkData_extraction,alientVault_helper
 import matplotlib.pyplot as plt
 import pickle
-import seaborn as sns # visualisation
+import seaborn as sns 
 from imblearn.under_sampling import RandomUnderSampler
 # https://xgboost.readthedocs.io/en/stable/get_started.html
 
@@ -25,9 +25,10 @@ engineering_data = linkData_extraction(combined_mail) + alien
 
 encoding_data = collate_linkdata(engineering_data) 
 
+#Model training code
 #https://www.datacamp.com/tutorial/xgboost-in-python
 
-#Purpose: Train XGBoost model on randomised features and display performance via a confusion matrix
+#Purpose: Train XGBoost model on randomised features and display test performance via a confusion matrix
 def gradientBoost_model():
     x_Data = encoding_data.drop('Classifier', axis=1)
     y_data_classifier = encoding_data['Classifier']
@@ -62,6 +63,6 @@ def gradientBoost_model():
     plt.close()
 
 #uncomment to run model
-gradientBoost_model()
+#gradientBoost_model()
 
 

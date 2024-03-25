@@ -40,12 +40,13 @@ app.post('/upload', upload.single('file'), (req, res) => {
     const{spawn} = require('child_process');
     const spawnProcess = spawn('python3',[path_to_combined, req.file.path]);
     prediction_data = ""
+    outcomeSplit = ""
 
     spawnProcess.stdout.on('data', function(data) {
         prediction_data += data.toString();
-        console.log(prediction_data)
          // https://www.simplilearn.com/tutorials/python-tutorial/split-in-python#:~:text=The%20split()%20function%20can,is%20returned%20as%20the%20output.
          messageSplit = prediction_data.split('||')
+         console.log(messageSplit)
          outcomeSplit = messageSplit[1]
     })
 

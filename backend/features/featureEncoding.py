@@ -1,10 +1,8 @@
-# Last step after features are extracted , they need to be encoded for model use
 import pandas
-from sklearn.preprocessing import LabelEncoder
 
 # https://www.learndatasci.com/glossary/tf-idf-term-frequency-inverse-document-frequency/
 
-# example link - {'Link': 'n', 'Scheme': '', 'IpCheck': False, 'Domain': 'n', 'SubDomain': '', 'DomainSubcount': 1, 'Classifier': 0}
+# example link - {'Link': 'n', 'IpCheck': False, 'Domain': 'n', 'SubDomain': '', 'DomainSubcount': 1, 'Classifier': 0}
 
 # The followng code will encode each extracted feature before they are passed to they gradient boost algorithm
 

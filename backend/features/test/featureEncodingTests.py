@@ -1,7 +1,7 @@
 import unittest
 import pandas
 import sys
-sys.path.append('/Users/rossdunn3/Desktop/DissertationPhish/backend/features')
+sys.path.append('backend/features')
 import featureEncoding
 
 example_test_input =  [{'Link': 'http://ross.com', 'Scheme': 'http', 'IpCheck': True, 'Domain': 'ross', 'SubDomain': '', 'DomainSubcount': 1, 'Classifier': 0}, {'Link': 'https://1234.5677.1.1', 'Scheme': 'https', 'IpCheck': False, 'Domain': '1234.5677.1.1', 'SubDomain': '', 'DomainSubcount': 1, 'Classifier': 1}]

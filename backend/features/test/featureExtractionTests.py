@@ -1,6 +1,6 @@
 import unittest
 import sys
-sys.path.append('/Users/rossdunn3/Desktop/DissertationPhish/backend/features')
+sys.path.append('backend/features')
 
 import featureExtraction
 from email import message_from_string

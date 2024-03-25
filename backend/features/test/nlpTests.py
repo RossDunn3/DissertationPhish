@@ -1,7 +1,7 @@
 import unittest
 import pandas
 import sys
-sys.path.append('/Users/rossdunn3/Desktop/DissertationPhish/backend/features')
+sys.path.append('backend/features')
 import NLP
 
 example_email = [{'Sender': 'ross@alex.com',

@@ -19,7 +19,7 @@ def removing_stopwords(content): #https://stackoverflow.com/questions/5486337/ho
     except TypeError:
         raise TypeError("Invalid type passed to stopwords function")
   
-#stirp identifiers and html tags from email subject content
+#Purpose: strip identifiers and html tags from email subject content
 def remove_tags(content):
     try:
         # strip html tags for plain text - https://tutorialedge.net/python/removing-html-from-string/
