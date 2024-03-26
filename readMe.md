@@ -1,9 +1,11 @@
 PhishCatcher: Automating the detection of Phishing emails
 
+A React driven website utilising natural language processing and gradient boosting algorithms to detect phishing email scams
+
 The following text is a technical guide for the purpose of demonstration and future work:
 
 **Step1 Pulling The Project**
-Pull the project from the repo
+Pull the project from the repo - Pull from the branch `PhishCatcher`
 Link: https://github.com/RossDunn3/DissertationPhish.git
 
 **Note**

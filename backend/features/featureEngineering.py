@@ -20,6 +20,9 @@ def data_extraction(hyperlink):
         return {"Link" : hyperlink, "IpCheck": ipCheck,"Domain": domainName, "SubDomain": domainSubdomain, "DomainSubcount": subDomainCount, "keyword" : keyword_check, "keyword_count" : keyword_count, "length": lenLink}
     except AttributeError:
         raise AttributeError("Attribute Error in data extraction function")
+    
+
+
 
 #Purpose: Sender and Receiver domain extraction from emails
 def extract_domainData(mail_entries):
@@ -83,6 +86,7 @@ def linkData_extraction(mail_entries):
         return link_list
     except Exception as e:
         print("ERROR - ", e)
+
 
 
 #Purpose: get url length

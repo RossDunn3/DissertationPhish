@@ -63,6 +63,6 @@ def gradientBoost_model():
     plt.close()
 
 #uncomment to run model
-#gradientBoost_model()
+gradientBoost_model()
 
 
